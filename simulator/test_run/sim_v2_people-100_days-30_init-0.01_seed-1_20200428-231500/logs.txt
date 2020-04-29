@@ -1,0 +1,43 @@
+######## DEMOGRAPHICS #########
+age distribution
+                 0
+count  102.000000
+mean    48.921569
+std     20.737724
+min      2.000000
+25%     34.250000
+50%     46.500000
+75%     64.750000
+max     94.000000
+house age distribution
+                0
+count  31.000000
+mean   39.241935
+std    13.948904
+min    20.333333
+25%    28.000000
+50%    40.000000
+75%    49.541667
+max    70.500000
+house size distribution
+                0
+count  31.000000
+mean    2.483871
+std     1.121635
+min     1.000000
+25%     2.000000
+50%     2.000000
+75%     3.000000
+max     5.000000
+Fraction of asymptomatic 0.029411764705882353
+######## COVID SPREAD #########
+environmental transmission ratio 0.0
+Ro -1
+Generation times 0 
+Cumulative Incidence [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+R : [-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+******** R0 *********
+Asymptomatic R0 0.0
+Presymptomatic R0 0.0
+Symptomatic R0 0.0
+******** Transmission Ratios *********
