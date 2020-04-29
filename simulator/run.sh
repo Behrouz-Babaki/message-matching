@@ -1,10 +1,8 @@
 #!/bin/bash
 
-mkdir test_run
-
 python run.py sim \
-    --n_people 100 \
-    --init_percent_sick 0.01 \
+    --n_people 10 \
+    --init_percent_sick 0.05 \
     --seed 1 \
-    --outdir test_run \
+    --outdir output \
     --simulation_days 30

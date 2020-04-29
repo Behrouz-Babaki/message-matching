@@ -141,10 +141,12 @@ class Clusters:
         for received_at, update_messages in grouped_update_messages.items():
 
             for update_message in update_messages:
-                old_message_dec = Message(update_message.uid, update_message.risk, update_message.day, update_message.unobs_id, update_message.has_app)
+                old_message_dec = Message(update_message.uid, update_message.risk, 
+                                          update_message.contact_day, update_message.unobs_id, 
+                                          update_message.has_app)
                 old_message_enc = encode_message(old_message_dec)
                 old_cluster = None
-                for cluster, messages in self.clusters_by_day[update_message.day].items():
+                for cluster, messages in self.clusters_by_day[update_message.contact_day].items():
                     for message in messages:
                         if message == old_message_enc:
                             old_cluster = cluster
@@ -152,7 +154,9 @@ class Clusters:
                             break
                     if old_cluster:
                         break
-                updated_message = Message(old_message_dec.uid, update_message.new_risk, old_message_dec.day, old_message_dec.unobs_id, old_message_dec.has_app)
+                updated_message = Message(old_message_dec.uid, update_message.new_risk, 
+                                          old_message_dec.day, old_message_dec.unobs_id, 
+                                          old_message_dec.has_app)
                 new_cluster = hash_to_cluster(updated_message)
 
                 self.update_record(old_cluster, new_cluster, old_message_dec, updated_message)

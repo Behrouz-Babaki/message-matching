@@ -3,7 +3,9 @@ import numpy as np
 from collections import namedtuple
 
 Message = namedtuple('message', 'uid risk day unobs_id has_app')
-UpdateMessage = namedtuple('update_message', 'uid new_risk risk day received_at unobs_id has_app')
+UpdateMessage = namedtuple('update_message', ['uid', 'new_risk', 'risk',
+	                       'contact_day', 'update_day', 'received_at', 
+						   'unobs_id', 'has_app'])
 
 def encode_message(message):
 	# encode a contact message as a string
@@ -11,7 +13,10 @@ def encode_message(message):
 
 def encode_update_message(message):
 	# encode a contact message as a string
-	return str(message.uid) + "_" + str(message.new_risk) + "_" + str(message.risk) + "_" + str(message.day) + "_" + str(message.received_at) + "_" + str(message.unobs_id) + "_" + str(message.has_app)
+	elements = [message.uid, message.new_risk, message.risk, 
+	            message.contact_day, message.update_day, 
+				message.received_at, message.unobs_id, message.has_app]
+	return '_'.join(map(str, elements))
 
 def decode_message(message):
 	# decode a string-encoded message into a tuple
@@ -25,15 +30,20 @@ def decode_message(message):
 
 def decode_update_message(update_message):
 	# decode a string-encoded message into a tuple
-	uid, new_risk, risk, day, received_at, unobs_id, has_app = update_message.split("_")
+	(uid, new_risk, risk, 
+	contact_day, update_day, 
+	received_at, unobs_id, has_app) = update_message.split("_")
 	obs_uid = int(uid)
 	risk = int(risk)
 	new_risk = int(new_risk)
-	day = int(day)
+	contact_day = int(contact_day)
+	update_day = int(update_day)
 	received_at = float(received_at) #datetime.datetime.strptime(received_at, "%Y-%m-%d %H:%M:%S")
 	unobs_uid = unobs_id
 	has_app = bool(has_app)
-	return UpdateMessage(obs_uid, new_risk, risk, day, received_at, unobs_uid, has_app)
+	return UpdateMessage(obs_uid, new_risk, risk, 
+	                     contact_day, update_day, 
+						 received_at, unobs_uid, has_app)
 
 def create_new_uid(rng):
 	# generate a 4 bit random code

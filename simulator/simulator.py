@@ -579,7 +579,7 @@ class Human(object):
                     self.test_time = self.env.timestamp
                     self.has_been_tested = True
                     city.tracker.track_tested_results(self, self.test_result, self.test_type)
-                    self.update_risk(test_results=True)
+                    self.update_risk(day, test_results=True)
 
             # recover
             if self.is_infectious and self.days_since_covid >= self.recovery_days:
@@ -599,7 +599,7 @@ class Human(object):
                     self.dead = False
 
                 self.obs_hospitalized = True
-                self.update_risk(recovery=True)
+                self.update_risk(day, recovery=True)
                 self.infection_timestamp = None # indicates they are no longer infected
                 self.all_symptoms, self.covid_symptoms = [], []
                 Event.log_recovery(self, self.env.timestamp, self.dead)
@@ -1008,8 +1008,9 @@ class Human(object):
         message = Message(self.uid, _proba_to_risk_level(self.risk), day, self.name, self.has_app)
         return message
 
-    def cur_message_risk_update(self, day, old_uid, old_risk, sent_at):
-        return UpdateMessage(old_uid, _proba_to_risk_level(self.risk), old_risk, day, sent_at, self.name, self.has_app)
+    def cur_message_risk_update(self, current_day, contact_day, old_uid, old_risk, sent_at):
+        return UpdateMessage(old_uid, _proba_to_risk_level(self.risk), old_risk, 
+                             contact_day, current_day, sent_at, self.name, self.has_app)
 
     def symptoms_at_time(self, now, symptoms):
         if not symptoms:
@@ -1066,7 +1067,7 @@ class Human(object):
             self.risk_level = new_risk_level
             self.tracing_method.modify_behavior(self)
 
-    def update_risk(self, recovery=False, test_results=False, update_messages=None):
+    def update_risk(self, cur_day, recovery=False, test_results=False, update_messages=None):
         if recovery:
             if self.is_removed:
                 self.risk = 0.0
@@ -1076,7 +1077,7 @@ class Human(object):
         if test_results:
             if self.test_result == "positive":
                 self.risk = 1.0
-                self.contact_book.send_message(self, self.city, RISK_MODEL)
+                self.contact_book.send_message(self, self.city, cur_day, RISK_MODEL)
             elif self.test_result == "negative":
                 self.risk = 0.20
 

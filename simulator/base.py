@@ -629,7 +629,7 @@ class Contacts(object):
                 break
         self.messages = self.messages[remove_idx:]
 
-    def send_message(self, owner, city, RISK_MODEL):
+    def send_message(self, owner, city, cur_day, RISK_MODEL):
         if RISK_MODEL == "manual tracing":
             p_contact = MANUAL_TRACING_NOISE
             delay = 1
@@ -655,7 +655,7 @@ class Contacts(object):
         for contact_id, num_contacts in contact_count.items():
             t = delay * _draw_random_discreet_gaussian(MANUAL_TRACING_DELAY_AVG, MANUAL_TRACING_DELAY_STD, owner.rng)
             ts[contact_id] = t
-            city.hd[contact_id].update_risk(update_messages={'n':num_contacts, 'delay': t})
+            city.hd[contact_id].update_risk(cur_day, update_messages={'n':num_contacts, 'delay': t})
 
         # for each message add the message to sent update_messages
         for message in self.messages:
@@ -663,4 +663,4 @@ class Contacts(object):
                 continue
             if owner.rng.random() < p_contact:
                 t = ts[message.unobs_id]
-                self.update_messages.append(city.hd[message.unobs_id].cur_message_risk_update(message.day, message.uid, message.risk, t))
+                self.update_messages.append(city.hd[message.unobs_id].cur_message_risk_update(cur_day, message.day, message.uid, message.risk, t))
