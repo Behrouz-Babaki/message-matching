@@ -3,7 +3,7 @@ unittest
 numpy
 addict
 tensorflow==1.15.2
-onnx==1.6
+onnx==1.13.0
 onnx-tf
 joblib
 scipy
